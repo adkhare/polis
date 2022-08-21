@@ -25,11 +25,11 @@ echo \"Hello, world!\n\";
         group: root
         mode: 0666
         ensure: present
+        triggers: apache2_service
     service:
         id: apache2_service
         name: apache2
         ensure: present
-        dependson: index_file
 ```
 
 Above configuration file should be able to achieve following capabilites:
