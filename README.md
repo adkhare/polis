@@ -30,6 +30,7 @@ echo \"Hello, world!\n\";
         id: apache2_service
         name: apache2
         ensure: present
+        triggerAction: restart
 ```
 
 Above configuration file should be able to achieve following capabilites:
