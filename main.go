@@ -71,7 +71,7 @@ echo "Hello, world!\n";`,
 	}
 
 	for id, p := range polis {
-		fmt.Printf("Starting %s\n", id)
+		fmt.Printf("Starting Module: %s\n", id)
 		nextId, err := p.Execute()
 		if err != nil {
 			if err != nil {

@@ -43,14 +43,6 @@ func (p Polis) Execute() (string, error) {
 		trigger = p.Triggers
 	}
 
-	// Check if triggerAction exists so that can be executed
-	if p.TriggerAction != "" {
-		_, err := p.Module.TriggerExec(p.TriggerAction)
-		if err != nil {
-			return "", err
-		}
-	}
-
 	return trigger, nil
 }
 
