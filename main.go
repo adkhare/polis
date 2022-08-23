@@ -20,7 +20,7 @@ func main() {
 			Ensure:     true,
 			Triggers:   "apache2_service",
 			Module: polis.File{
-				Path: "/var/www/html/hello.php",
+				Path: "/var/www/html/index.php",
 				Contents: `
 <?php
 
