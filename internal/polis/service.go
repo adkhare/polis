@@ -47,6 +47,7 @@ func (s Service) Check() bool {
 func (s Service) TriggerExec(Trigger string) (Status, error) {
 	// Execute the trigger action
 	exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo systemctl %s %s`, Trigger, s.Name))
+	fmt.Printf("Triggered service - %s. Exit code: %d\n", s.Name, exitCode)
 	if err != nil {
 		return Failure, err
 	}
@@ -62,7 +63,7 @@ func (s Service) UnApply() (Status, error) {
 	// stops the service
 	if s.Check() {
 		exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo systemctl stop %s`, s.Name))
-
+		fmt.Printf("Unapply service - %s. Exit code: %d\n", s.Name, exitCode)
 		if err != nil {
 			return Failure, err
 		}
