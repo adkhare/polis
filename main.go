@@ -43,7 +43,7 @@ func main() {
 				Name: "php-cgi",
 			},
 		},
-		"apache2_config": {
+		"apache2_index_php": {
 			ModuleType: "File",
 			Ensure:     true,
 			Triggers:   "apache2_service",
@@ -55,6 +55,17 @@ func main() {
 header("Content-Type: text/plain");
 
 echo "Hello, world!\n";`,
+				Owner: "root",
+				Group: "root",
+				Perm:  0644,
+			},
+		},
+		"apache2_hello_php": {
+			ModuleType: "File",
+			Ensure:     false,
+			Triggers:   "apache2_service",
+			Module: polis.File{
+				Path:  "/var/www/html/hello.php",
 				Owner: "root",
 				Group: "root",
 				Perm:  0644,

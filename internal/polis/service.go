@@ -8,6 +8,9 @@ type Service struct {
 	Name string `yaml:"Name"`
 }
 
+/**
+ * This applies the service module by starting the service if the service is not up and running
+ */
 func (s Service) Apply() (Status, error) {
 	// Starts or restarts the service
 	if !s.Check() {
@@ -28,10 +31,13 @@ func (s Service) Apply() (Status, error) {
 	return Success, nil
 }
 
+/**
+ * This checks if the service is running
+ */
 func (s Service) Check() bool {
 	// Check if the service is running
 	exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo systemctl status %s`, s.Name))
-	fmt.Printf("Checking for service - %s. Exit code: %d\n", s.Name, exitCode)
+	fmt.Printf("Checking service: %s. Exit code: %d\n", s.Name, exitCode)
 	if err != nil {
 		fmt.Printf("Error while checking service: %s. Error: %s\n", s.Name, err)
 		return false
@@ -44,10 +50,13 @@ func (s Service) Check() bool {
 	}
 }
 
+/**
+ * This triggers the execution of the service module which essentially restarts the service
+ */
 func (s Service) TriggerExec(Trigger string) (Status, error) {
 	// Execute the trigger action
 	exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo systemctl %s %s`, Trigger, s.Name))
-	fmt.Printf("Triggered service - %s. Exit code: %d\n", s.Name, exitCode)
+	fmt.Printf("Triggered service :%s. Exit code: %d\n", s.Name, exitCode)
 	if err != nil {
 		return Failure, err
 	}
@@ -59,6 +68,9 @@ func (s Service) TriggerExec(Trigger string) (Status, error) {
 	}
 }
 
+/**
+ * This unapplies the service module which essentially stops the service
+ */
 func (s Service) UnApply() (Status, error) {
 	// stops the service
 	if s.Check() {

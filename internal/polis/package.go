@@ -9,6 +9,9 @@ type Package struct {
 	Ensure bool   `yaml:"Ensure"`
 }
 
+/**
+ * This will ensure to install the package if its not installed
+ */
 func (p Package) Apply() (Status, error) {
 	// Installs the package if the package is not installed
 	if !p.Check() {
@@ -29,6 +32,9 @@ func (p Package) Apply() (Status, error) {
 	return Success, nil
 }
 
+/**
+ * This will check if the package is already installed
+ */
 func (p Package) Check() bool {
 	// Check if the package exists
 	exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo dpkg-query -f '${Package}\t${db:Status-Abbrev}\t${Version}\t${Name}' -W %s`, p.Name))
@@ -45,11 +51,17 @@ func (p Package) Check() bool {
 	}
 }
 
+/**
+ * This is not implemented since there does not seem to be usecase to trigger a package module
+ */
 func (p Package) TriggerExec(Trigger string) (Status, error) {
-	// Execute the trigger action
+	// Return success with no error since package cannot be triggered
 	return Success, nil
 }
 
+/**
+ * This will remove and purge the package
+ */
 func (p Package) UnApply() (Status, error) {
 	// Installs the package if the package is not installed
 	if p.Check() {

@@ -18,6 +18,9 @@ type File struct {
 	Perm     fs.FileMode `yaml:"Perm"`
 }
 
+/**
+ * This creates a file if the file does not exist with given permissions, contents, owner and group
+ */
 func (f File) Apply() (Status, error) {
 	// Check if file exists. if it does, return success
 	if f.Check() {
@@ -62,6 +65,9 @@ func (f File) Apply() (Status, error) {
 	return Changed, nil
 }
 
+/**
+ * This checks if the file exists with given permissions, contents, owner and group
+ */
 func (f File) Check() bool {
 	// Check if the file exists with given metadata and contents
 	fmt.Printf("Checking file: %s\n", f.Path)
@@ -112,19 +118,19 @@ func (f File) Check() bool {
 	return true
 }
 
+/**
+ * This is not implemented since there does not seem to be usecase to trigger a file module
+ */
 func (f File) TriggerExec(Trigger string) (Status, error) {
-	// Execute the trigger action
+	// Return success with no error since file cannot be triggered
 	return Success, nil
 }
 
+/**
+ * This will delete the file
+ */
 func (f File) UnApply() (Status, error) {
-	// Check if file exists. if it does not, return success
-	if !f.Check() {
-		return Success, nil
-		//TODO: check if the contents are same. if not, rewrite the file
-	}
-
-	// Write a file with contents
+	// Remove a file
 	err := os.RemoveAll(f.Path)
 	if err != nil {
 		return Failure, err
