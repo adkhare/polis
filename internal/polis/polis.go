@@ -55,7 +55,7 @@ func (p Polis) Execute() (string, error) {
 }
 
 func ExecuteCommand(cmdString string) (int, error) {
-	cmd := exec.Command(cmdString)
+	cmd := exec.Command("bash", "-c", cmdString)
 	if err := cmd.Start(); err != nil {
 		return Failure, err
 	}
