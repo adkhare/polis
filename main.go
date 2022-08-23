@@ -7,7 +7,30 @@ import (
 )
 
 func main() {
-	polis := map[string]polis.Polis{
+	polis := GetPolisStruct()
+
+	for id, p := range polis {
+		fmt.Printf("Starting Module: %s\n", id)
+		nextId, err := p.Execute()
+		if err != nil {
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+		if nextId != "" {
+
+			if triggeredPolis, found := polis[nextId]; found {
+				_, err := triggeredPolis.Module.TriggerExec(triggeredPolis.TriggerAction)
+				if err != nil {
+					log.Fatal(err)
+				}
+			}
+		}
+	}
+}
+
+func GetPolisStruct() map[string]polis.Polis {
+	return map[string]polis.Polis{
 		"apache2_package": {
 			ModuleType: "Package",
 			Ensure:     true,
@@ -62,7 +85,7 @@ echo "Hello, world!\n";`,
 		},
 		"apache2_hello_php": {
 			ModuleType: "File",
-			Ensure:     false,
+			Ensure:     false, // Unapplies
 			Triggers:   "apache2_service",
 			Module: polis.File{
 				Path:  "/var/www/html/hello.php",
@@ -79,24 +102,12 @@ echo "Hello, world!\n";`,
 				Name: "apache2",
 			},
 		},
-	}
-
-	for id, p := range polis {
-		fmt.Printf("Starting Module: %s\n", id)
-		nextId, err := p.Execute()
-		if err != nil {
-			if err != nil {
-				log.Fatal(err)
-			}
-		}
-		if nextId != "" {
-
-			if triggeredPolis, found := polis[nextId]; found {
-				_, err := triggeredPolis.Module.TriggerExec(triggeredPolis.TriggerAction)
-				if err != nil {
-					log.Fatal(err)
-				}
-			}
-		}
+		"php-mysql_package": {
+			ModuleType: "Package",
+			Ensure:     true,
+			Module: polis.Package{
+				Name: "php-mysql",
+			},
+		},
 	}
 }
