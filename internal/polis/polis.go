@@ -7,12 +7,11 @@ import (
 
 // Base polis struct which is the generic state
 type Polis struct {
-	id            string
-	name          string
-	ensure        bool
-	triggers      string
-	triggerAction string
-	module        Module
+	ModuleType    string `yaml:"ModuleType"`
+	Ensure        bool   `yaml:"Ensure"`
+	Triggers      string `yaml:"Triggers"`
+	TriggerAction string `yaml:"TriggerAction"`
+	Module        Module `yaml:"Module"`
 }
 
 type Status int
@@ -25,6 +24,34 @@ const (
 type Module interface {
 	Apply() (Status, error)
 	Check() bool
+	TriggerExec(string) (Status, error)
+	UnApply() (Status, error)
+}
+
+func (p Polis) Execute() (string, error) {
+	// Ensure the module is applied
+	if p.Ensure {
+		_, err := p.Module.Apply()
+		if err != nil {
+			return "", err
+		}
+	}
+
+	// Check if trigger exists so that it can be returned
+	trigger := ""
+	if p.Triggers != "" {
+		trigger = p.Triggers
+	}
+
+	// Check if triggerAction exists so that can be executed
+	if p.TriggerAction != "" {
+		_, err := p.Module.TriggerExec(p.TriggerAction)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	return trigger, nil
 }
 
 func ExecuteCommand(cmdString string) (int, error) {

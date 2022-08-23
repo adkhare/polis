@@ -5,13 +5,14 @@ import (
 )
 
 type Package struct {
-	name string
+	Name   string `yaml:"Name"`
+	Ensure bool   `yaml:"Ensure"`
 }
 
 func (p Package) Apply() (Status, error) {
 	// Installs the package if the package is not installed
 	if !p.Check() {
-		exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo apt-get update && sudo apt-get install %s`, p.name))
+		exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo apt-get update && sudo apt-get -y install %s`, p.Name))
 
 		if err != nil {
 			return Failure, err
@@ -29,7 +30,7 @@ func (p Package) Apply() (Status, error) {
 
 func (p Package) Check() bool {
 	// Check if the package exists
-	exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo dpkg-query -f '${Package}\t${db:Status-Abbrev}\t${Version}\t${Name}' -W %s`, p.name))
+	exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo dpkg-query -f '${Package}\t${db:Status-Abbrev}\t${Version}\t${Name}' -W %s`, p.Name))
 	if err != nil {
 		return false
 	}
@@ -39,4 +40,28 @@ func (p Package) Check() bool {
 	} else {
 		return false
 	}
+}
+
+func (p Package) TriggerExec(Trigger string) (Status, error) {
+	// Execute the trigger action
+	return Success, nil
+}
+
+func (p Package) UnApply() (Status, error) {
+	// Installs the package if the package is not installed
+	if p.Check() {
+		exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo apt-get -y --purge remove %s`, p.Name))
+
+		if err != nil {
+			return Failure, err
+		}
+
+		if exitCode == Success {
+			return Success, nil
+		} else {
+			return Failure, nil
+		}
+	}
+
+	return Success, nil
 }

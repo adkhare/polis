@@ -5,13 +5,61 @@ import (
 )
 
 type Service struct {
-	name string
+	Name string `yaml:"Name"`
 }
 
 func (s Service) Apply() (Status, error) {
 	// Starts or restarts the service
 	if !s.Check() {
-		exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo service %s start`, s.name))
+		fmt.Printf("Installing %s", s.Name)
+		exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo service %s start`, s.Name))
+		if err != nil {
+			return Failure, err
+		}
+
+		if exitCode == Success {
+			fmt.Printf("%s installed successfully", s.Name)
+			return Success, nil
+		} else {
+			return Failure, nil
+		}
+	}
+
+	return Success, nil
+}
+
+func (s Service) Check() bool {
+	// Check if the service is running
+	exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo systemctl status %s`, s.Name))
+	if err != nil {
+		return false
+	}
+
+	if exitCode == Success {
+		return true
+	} else {
+		return false
+	}
+}
+
+func (s Service) TriggerExec(Trigger string) (Status, error) {
+	// Execute the trigger action
+	exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo systemctl %s %s`, Trigger, s.Name))
+	if err != nil {
+		return Failure, err
+	}
+
+	if exitCode == Success {
+		return Success, nil
+	} else {
+		return Failure, nil
+	}
+}
+
+func (s Service) UnApply() (Status, error) {
+	// stops the service
+	if s.Check() {
+		exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo systemctl stop %s`, s.Name))
 
 		if err != nil {
 			return Failure, err
@@ -25,18 +73,4 @@ func (s Service) Apply() (Status, error) {
 	}
 
 	return Success, nil
-}
-
-func (s Service) Check() bool {
-	// Check if the service is running
-	exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo service %s status`, s.name))
-	if err != nil {
-		return false
-	}
-
-	if exitCode == Success {
-		return true
-	} else {
-		return false
-	}
 }
