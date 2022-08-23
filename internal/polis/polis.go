@@ -75,5 +75,5 @@ func ExecuteCommand(cmdString string) (int, error) {
 			return Failure, err
 		}
 	}
-	return Failure, nil
+	return Success, nil
 }
