@@ -52,10 +52,12 @@ func (f File) Check() bool {
 	}
 
 	// Check if the permissions are same
+	fmt.Printf("Checking file permissions: %s\n", f.Path)
 	if fileInfo.Mode() != f.Perm {
 		return false
 	}
 
+	fmt.Printf("Checking file contents: %s\n", f.Path)
 	fileData, err := os.ReadFile(f.Path)
 	if err != nil {
 		fmt.Printf("Error while checking file: %s. Error: %s\n", f.Path, err)
