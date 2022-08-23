@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"os/user"
 	"path/filepath"
+	"strconv"
+	"syscall"
 )
 
 type File struct {
@@ -39,6 +42,23 @@ func (f File) Apply() (Status, error) {
 		return Failure, err
 	}
 
+	osUser, err := user.Lookup(f.Owner)
+	if err != nil {
+		return Failure, err
+	}
+
+	osGroup, err := user.LookupGroup(f.Group)
+	if err != nil {
+		return Failure, err
+	}
+	uid, _ := strconv.Atoi(osUser.Uid)
+	gid, _ := strconv.Atoi(osGroup.Gid)
+	err = os.Chown(f.Path, uid, gid)
+
+	if err != nil {
+		return Failure, err
+	}
+
 	return Changed, nil
 }
 
@@ -54,6 +74,28 @@ func (f File) Check() bool {
 	// Check if the permissions are same
 	if fileInfo.Mode() != f.Perm {
 		fmt.Printf("Different file permissions for file: %s\n. Source %s; Should be %s", f.Path, fileInfo.Mode(), f.Perm)
+		return false
+	}
+
+	// Check if ownership is same
+	stat := fileInfo.Sys().(*syscall.Stat_t)
+	uidFile := stat.Uid
+	gidFile := stat.Gid
+
+	osUser, err := user.Lookup(f.Owner)
+	if err != nil {
+		return false
+	}
+
+	osGroup, err := user.LookupGroup(f.Group)
+	if err != nil {
+		return false
+	}
+	uid, _ := strconv.Atoi(osUser.Uid)
+	gid, _ := strconv.Atoi(osGroup.Gid)
+
+	if uid != int(uidFile) || gid != int(gidFile) {
+		fmt.Printf("Different file ownership: %s\n", f.Path)
 		return false
 	}
 
