@@ -27,7 +27,7 @@ func (f File) Apply() (Status, error) {
 	dir := filepath.Dir(f.Path)
 	_, err := os.Stat(dir)
 	if err == nil {
-		errDir := os.MkdirAll(f.Path, f.Perm)
+		errDir := os.MkdirAll(dir, f.Perm)
 		if errDir != nil {
 			return Failure, err
 		}
