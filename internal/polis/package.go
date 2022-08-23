@@ -66,7 +66,7 @@ func (p Package) UnApply() (Status, error) {
 	// Installs the package if the package is not installed
 	if p.Check() {
 		exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo apt-get -y --purge remove %s`, p.Name))
-
+		fmt.Printf("Removing package: %s. Exit code: %d\n", p.Name, exitCode)
 		if err != nil {
 			return Failure, err
 		}

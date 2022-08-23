@@ -75,7 +75,7 @@ func (s Service) UnApply() (Status, error) {
 	// stops the service
 	if s.Check() {
 		exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo systemctl stop %s`, s.Name))
-		fmt.Printf("Unapply service - %s. Exit code: %d\n", s.Name, exitCode)
+		fmt.Printf("Unapply service: %s. Exit code: %d\n", s.Name, exitCode)
 		if err != nil {
 			return Failure, err
 		}
