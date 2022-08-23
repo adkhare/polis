@@ -44,14 +44,28 @@ func (f File) Apply() (Status, error) {
 
 func (f File) Check() bool {
 	// Check if the file exists with given metadata and contents
-	_, err := os.Stat(f.Path)
 	fmt.Printf("Checking file: %s\n", f.Path)
+	fileInfo, err := os.Stat(f.Path)
 	if err != nil {
 		fmt.Printf("Error while checking file: %s. Error: %s\n", f.Path, err)
 		return false
-	} else {
-		return true
 	}
+
+	// Check if the permissions are same
+	if fileInfo.Mode() != f.Perm {
+		return false
+	}
+
+	fileData, err := os.ReadFile(f.Path)
+	if err != nil {
+		fmt.Printf("Error while checking file: %s. Error: %s\n", f.Path, err)
+		return false
+	}
+
+	if string(fileData) != f.Contents {
+		return false
+	}
+	return true
 }
 
 func (f File) TriggerExec(Trigger string) (Status, error) {
