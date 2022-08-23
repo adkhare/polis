@@ -45,7 +45,9 @@ func (f File) Apply() (Status, error) {
 func (f File) Check() bool {
 	// Check if the file exists with given metadata and contents
 	_, err := os.Stat(f.Path)
+	fmt.Printf("Checking file: %s\n", f.Path)
 	if err != nil {
+		fmt.Printf("Error while checking file: %s. Error: %s\n", f.Path, err)
 		return false
 	} else {
 		return true

@@ -31,8 +31,9 @@ func (s Service) Apply() (Status, error) {
 func (s Service) Check() bool {
 	// Check if the service is running
 	exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo systemctl status %s`, s.Name))
-	fmt.Printf("Checking for service. Exit code: %d\n", exitCode)
+	fmt.Printf("Checking for service - %s. Exit code: %d\n", s.Name, exitCode)
 	if err != nil {
+		fmt.Printf("Error while checking service: %s. Error: %s\n", s.Name, err)
 		return false
 	}
 

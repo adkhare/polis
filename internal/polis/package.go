@@ -34,6 +34,7 @@ func (p Package) Check() bool {
 	exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo dpkg-query -f '${Package}\t${db:Status-Abbrev}\t${Version}\t${Name}' -W %s`, p.Name))
 	fmt.Printf("Checking for package. Exit code: %d\n", exitCode)
 	if err != nil {
+		fmt.Printf("Error while checking package: %s. Error: %s\n", p.Name, err)
 		return false
 	}
 
