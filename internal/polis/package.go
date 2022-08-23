@@ -20,7 +20,7 @@ func (p Package) Apply() (Status, error) {
 		}
 
 		if exitCode == Success {
-			return Success, nil
+			return Changed, nil
 		} else {
 			return Failure, nil
 		}

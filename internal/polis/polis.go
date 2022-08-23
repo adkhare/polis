@@ -19,6 +19,7 @@ type Status int
 const (
 	Success = 0
 	Failure = 1
+	Changed = 2
 )
 
 type Module interface {
@@ -30,16 +31,28 @@ type Module interface {
 
 func (p Polis) Execute() (string, error) {
 	// Ensure the module is applied
+	isChanged := false //Mark this flag if any changes are applied
 	if p.Ensure {
-		_, err := p.Module.Apply()
+		ensureStatus, err := p.Module.Apply()
 		if err != nil {
 			return "", err
+		}
+		if ensureStatus == Changed {
+			isChanged = true
+		}
+	} else {
+		ensureStatus, err := p.Module.UnApply()
+		if err != nil {
+			return "", err
+		}
+		if ensureStatus == Changed {
+			isChanged = true
 		}
 	}
 
 	// Check if trigger exists so that it can be returned
 	trigger := ""
-	if p.Triggers != "" {
+	if p.Triggers != "" && isChanged {
 		trigger = p.Triggers
 	}
 

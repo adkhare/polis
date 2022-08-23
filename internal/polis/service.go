@@ -18,8 +18,8 @@ func (s Service) Apply() (Status, error) {
 		}
 
 		if exitCode == Success {
-			fmt.Printf("%s installed successfully\n", s.Name)
-			return Success, nil
+			fmt.Printf("%s started successfully\n", s.Name)
+			return Changed, nil
 		} else {
 			return Failure, nil
 		}

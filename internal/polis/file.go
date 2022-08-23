@@ -39,7 +39,7 @@ func (f File) Apply() (Status, error) {
 		return Failure, err
 	}
 
-	return Success, nil
+	return Changed, nil
 }
 
 func (f File) Check() bool {
