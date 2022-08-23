@@ -22,7 +22,7 @@ func (f File) Apply() (Status, error) {
 		//TODO: check if the contents are same. if not, rewrite the file
 	}
 
-	fmt.Printf("Creating file: %s", f.Path)
+	fmt.Printf("Creating file: %s\n", f.Path)
 	// Create directory
 	dir := filepath.Dir(f.Path)
 	_, err := os.Stat(dir)
@@ -44,8 +44,7 @@ func (f File) Apply() (Status, error) {
 
 func (f File) Check() bool {
 	// Check if the file exists with given metadata and contents
-	fileInfo, err := os.Stat(f.Path)
-	fmt.Printf("Checking for file. Exit code: %v", fileInfo)
+	_, err := os.Stat(f.Path)
 	if err != nil {
 		return false
 	} else {

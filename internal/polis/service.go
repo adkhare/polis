@@ -11,14 +11,14 @@ type Service struct {
 func (s Service) Apply() (Status, error) {
 	// Starts or restarts the service
 	if !s.Check() {
-		fmt.Printf("Starting service %s", s.Name)
+		fmt.Printf("Starting service %s\n", s.Name)
 		exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo service %s start`, s.Name))
 		if err != nil {
 			return Failure, err
 		}
 
 		if exitCode == Success {
-			fmt.Printf("%s installed successfully", s.Name)
+			fmt.Printf("%s installed successfully\n", s.Name)
 			return Success, nil
 		} else {
 			return Failure, nil
@@ -31,7 +31,7 @@ func (s Service) Apply() (Status, error) {
 func (s Service) Check() bool {
 	// Check if the service is running
 	exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo systemctl status %s`, s.Name))
-	fmt.Printf("Checking for service. Exit code: %d", exitCode)
+	fmt.Printf("Checking for service. Exit code: %d\n", exitCode)
 	if err != nil {
 		return false
 	}
