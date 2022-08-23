@@ -12,7 +12,7 @@ type Package struct {
 func (p Package) Apply() (Status, error) {
 	// Installs the package if the package is not installed
 	if !p.Check() {
-		exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo apt-get update && sudo apt-get -y install %s`, p.Name))
+		exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo apt-get update && /usr/bin/sudo apt-get -y install %s`, p.Name))
 
 		if err != nil {
 			return Failure, err
