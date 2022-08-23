@@ -15,6 +15,34 @@ func main() {
 				Name: "apache2",
 			},
 		},
+		"php_package": {
+			ModuleType: "Package",
+			Ensure:     true,
+			Module: polis.Package{
+				Name: "php",
+			},
+		},
+		"libapache2-mod-php_package": {
+			ModuleType: "Package",
+			Ensure:     true,
+			Module: polis.Package{
+				Name: "libapache2-mod-php",
+			},
+		},
+		"php-cli_package": {
+			ModuleType: "Package",
+			Ensure:     true,
+			Module: polis.Package{
+				Name: "php-cli",
+			},
+		},
+		"php-cgi_package": {
+			ModuleType: "Package",
+			Ensure:     true,
+			Module: polis.Package{
+				Name: "php-cgi",
+			},
+		},
 		"apache2_config": {
 			ModuleType: "File",
 			Ensure:     true,
