@@ -47,9 +47,9 @@ func (f File) Check() bool {
 	fileInfo, err := os.Stat(f.Path)
 	fmt.Printf("Checking for file. Exit code: %v", fileInfo)
 	if err != nil {
-		return true
-	} else {
 		return false
+	} else {
+		return true
 	}
 }
 
