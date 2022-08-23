@@ -72,8 +72,7 @@ func GetPolisStruct() map[string]polis.Polis {
 			Triggers:   "apache2_service",
 			Module: polis.File{
 				Path: "/var/www/html/index.php",
-				Contents: `
-<?php
+				Contents: `<?php
 
 header("Content-Type: text/plain");
 
