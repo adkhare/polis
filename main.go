@@ -57,7 +57,7 @@ header("Content-Type: text/plain");
 echo "Hello, world!\n";`,
 				Owner: "root",
 				Group: "root",
-				Perm:  0666,
+				Perm:  0644,
 			},
 		},
 		"apache2_service": {
