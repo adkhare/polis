@@ -12,7 +12,7 @@ func (s Service) Apply() (Status, error) {
 	// Starts or restarts the service
 	if !s.Check() {
 		fmt.Printf("Installing %s", s.Name)
-		exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo service %s start`, s.Name))
+		exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo service %s start`, s.Name))
 		if err != nil {
 			return Failure, err
 		}
@@ -30,7 +30,7 @@ func (s Service) Apply() (Status, error) {
 
 func (s Service) Check() bool {
 	// Check if the service is running
-	exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo systemctl status %s`, s.Name))
+	exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo systemctl status %s`, s.Name))
 	if err != nil {
 		return false
 	}
@@ -44,7 +44,7 @@ func (s Service) Check() bool {
 
 func (s Service) TriggerExec(Trigger string) (Status, error) {
 	// Execute the trigger action
-	exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo systemctl %s %s`, Trigger, s.Name))
+	exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo systemctl %s %s`, Trigger, s.Name))
 	if err != nil {
 		return Failure, err
 	}
@@ -59,7 +59,7 @@ func (s Service) TriggerExec(Trigger string) (Status, error) {
 func (s Service) UnApply() (Status, error) {
 	// stops the service
 	if s.Check() {
-		exitCode, err := ExecuteCommand(fmt.Sprintf(`sudo systemctl stop %s`, s.Name))
+		exitCode, err := ExecuteCommand(fmt.Sprintf(`/usr/bin/sudo systemctl stop %s`, s.Name))
 
 		if err != nil {
 			return Failure, err
