@@ -78,3 +78,10 @@ Following were the requirements and explanation of how configuration drives thos
     - `Module` interface provides function of `Check` which is used in `Apply` function to ensure that **changes** are made **only if** `Check` is `false` that facilitates the tool being idempotent
 5. All current **configurations** that are set in `GetPolisStruct` in `main.go` will ensure to install everything, configure the `index.php` and ensure to restart the `apache2` server
 6. This code currently assumes that the new hosts are exactly the same config as that of `54.221.50.166` and `52.90.125.150`
+
+## Improvements
+1. Configuration can be changed to using yaml file instead of making configuration changes in the go code in `main.go`
+```
+I have given some efforts in doing so. However, due to lack of my golang knowledge, I was unable to implement a yaml unmarshaller which can unmarshal embedded structs which are structs that implicitly satisfy interface
+```
+2. Currently, the modules are executed in random order. However, this can be changed by implementing a sorting approach which or a priority queue which prioritises modules
