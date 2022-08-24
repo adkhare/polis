@@ -131,11 +131,12 @@ func (f File) TriggerExec(Trigger string) (Status, error) {
  */
 func (f File) UnApply() (Status, error) {
 	// Remove a file
-	err := os.RemoveAll(f.Path)
-	fmt.Printf("Removing file: %s\n", f.Path)
-	if err != nil {
-		return Failure, err
+	if f.Check() {
+		err := os.RemoveAll(f.Path)
+		fmt.Printf("Removing file: %s\n", f.Path)
+		if err != nil {
+			return Failure, err
+		}
 	}
-
 	return Success, nil
 }
