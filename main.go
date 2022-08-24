@@ -76,7 +76,7 @@ func GetPolisStruct() map[string]polis.Polis {
 
 header("Content-Type: text/plain");
 
-echo "Hello, world!\nHow are you?";`,
+echo "Hello, world!\n";`,
 				Owner: "root",
 				Group: "root",
 				Perm:  0644,
