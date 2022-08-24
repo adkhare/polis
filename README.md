@@ -1,6 +1,18 @@
 # polis
 Server Configuration Management
 
+This is a rudimentary configuration management tool to configure servers for production service of a simple PHP web application. This is similar to a tool like Puppet or Chef that meets the following specifications and then use that tool to configure the servers.
+
+Requirements for your rudimentary configuration management tool:
+
+* This tool provides an abstraction that allows specifying a file's content and metadata (owner, group, mode)
+
+* This toolprovides an abstraction that allows installing and removing Debian packages
+
+* This tool provides mechanism for restarting a service when relevant files or packages are updated
+
+* This tool is idempotent and can apply configuration over and over again
+
 Following are the steps to use this tool:
 ```
 cd $HOME
