@@ -64,17 +64,17 @@ Service:
 In order to make changes to the configuration, please change the struct object in main.go:GetPolisStruct function.
 
 Following were the requirements and explanation of how configuration drives those changes:
-1. If your tool has dependencies not available on a standard Ubuntu instance you may include a bootstrap.sh program to resolve them
-    - ./bootstrap.sh - installs go1.19 using tar and adds the go binary to the PATH and also sets the GOPATH and GOROOT
-2. Tool must provide abstraction for files, packages and service
+1. If your tool has dependencies not available on a standard Ubuntu instance you may include a **bootstrap.sh** program to resolve them
+    - ./bootstrap.sh - installs `go1.19` using tar and adds the go binary to the PATH and also sets the `$GOPATH` and `$GOROOT`
+2. Tool must provide **abstraction** for **files**, **packages** and **service**
     - `Module` is an interface which is part of `Polis` struct that is implemented implicitly by `File`, `Package` and `Service` structs
     by implementing required methods
-3. Triggering capability between different modules
+3. **Triggering** capability between different modules
     - `Polis` struct configures capability for providing
-        - `Triggers` which defines which ID of the module to trigger
+        - `Triggers` which defines which **ID** of the module to trigger
         - `TriggerAction` which defines what is the action that needs to be executed when the Module is triggered
     Example: in the above example configurations, `apache2_index_php` triggers `apache2_index_php`. Which means when the file `index.php` is created/updated/deleted, `apache2` service will be restarted
-4. Tool must be idempotent
-    - `Module` interface provides function of `Check` which is used in `Apply` function to ensure that changes are made only if `Check` is `false` that facilitates the tool being idempotent
-5. All current configurations that are set in `GetPolisStruct` in `main.go` will ensure to install everything, configure the `index.php` and ensure to restart the `apache2` server
+4. Tool must be **idempotent**
+    - `Module` interface provides function of `Check` which is used in `Apply` function to ensure that **changes** are made **only if** `Check` is `false` that facilitates the tool being idempotent
+5. All current **configurations** that are set in `GetPolisStruct` in `main.go` will ensure to install everything, configure the `index.php` and ensure to restart the `apache2` server
 6. This code currently assumes that the new hosts are exactly the same config as that of `54.221.50.166` and `52.90.125.150`

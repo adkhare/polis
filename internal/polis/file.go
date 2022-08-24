@@ -73,7 +73,6 @@ func (f File) Check() bool {
 	fmt.Printf("Checking file: %s\n", f.Path)
 	fileInfo, err := os.Stat(f.Path)
 	if err != nil {
-		fmt.Printf("Error while checking file: %s. Error: %s\n", f.Path, err)
 		return false
 	}
 
