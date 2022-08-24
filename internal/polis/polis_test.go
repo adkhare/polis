@@ -29,7 +29,7 @@ func TestModuleInheritance(t *testing.T) {
 		{
 			m:              ModuleTest{}, // initialize the interface variable with the inherited struct
 			expectedStatus: Success,
-			expectedBool:   false,
+			expectedBool:   true,
 		},
 	}
 
