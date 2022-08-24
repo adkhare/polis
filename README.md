@@ -82,6 +82,8 @@ Following were the requirements and explanation of how configuration drives thos
 ## Improvements
 1. Configuration can be changed to using yaml file instead of making configuration changes in the go code in `main.go`
 ```
-I have given some efforts in doing so. However, due to lack of my golang knowledge, I was unable to implement a yaml unmarshaller which can unmarshal embedded structs which are structs that implicitly satisfy interface
+I have given some efforts in doing so. However, due to lack of my golang knowledge, I was unable to
+implement a yaml unmarshaller which can unmarshal embedded structs which are structs that
+implicitly satisfy interface
 ```
 2. Currently, the modules are executed in random order. However, this can be changed by implementing a sorting approach which or a priority queue which prioritises modules
