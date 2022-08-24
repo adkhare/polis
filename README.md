@@ -1,7 +1,5 @@
 # polis
-server configuration management
-
-Its a server configuration management tool which relies on concepts of state machine to achieve final desired state from initial state of the server
+Server Configuration Management
 
 Following are the steps to use this tool:
 ```
