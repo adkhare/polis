@@ -11,9 +11,7 @@ cd go/github.com/adkhare
 git clone https://github.com/adkhare/polis.git
 cd polis
 ./bootstrap.sh
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go
-export PATH=$PATH:/usr/local/go/bin
+source ~/.profile
 go run main.go
 ```
 
