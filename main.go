@@ -82,12 +82,12 @@ echo "Hello, world!\n";`,
 				Perm:  0644,
 			},
 		},
-		"apache2_hello_php": {
+		"apache2_index_html": {
 			ModuleType: "File",
 			Ensure:     false, // Unapplies
 			Triggers:   "apache2_service",
 			Module: polis.File{
-				Path:  "/var/www/html/hello.php",
+				Path:  "/var/www/html/index.html",
 				Owner: "root",
 				Group: "root",
 				Perm:  0644,

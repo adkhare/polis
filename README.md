@@ -7,9 +7,13 @@ Following are the steps to use this tool:
 ```
 cd $HOME
 mkdir -p go/github.com/adkhare
+cd go/github.com/adkhare
 git clone https://github.com/adkhare/polis.git
 cd polis
 ./bootstrap.sh
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export PATH=$PATH:/usr/local/go/bin
 go run main.go
 ```
 
