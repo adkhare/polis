@@ -28,7 +28,7 @@ go run main.go
 This should execute everything that is configured in `main.go` - `GetPolisStruct` function
 
 Following is the structure of the configuration examples for 3 main modules:
-Package:
+**Package**:
 ```
 "apache2_package": { // ID of the configuration which is unique across the whole configuration
     ModuleType: "Package", // Type of the Module
@@ -39,7 +39,7 @@ Package:
 },
 ```
 
-File:
+**File**:
 ```
 "apache2_index_php": {
     ModuleType: "File",
@@ -59,7 +59,7 @@ echo "Hello, world!\n";`, // Contents of the file
 },
 ```
 
-Service:
+**Service**:
 ```
 "apache2_service": {
     ModuleType:    "Service",
